@@ -13,7 +13,7 @@ form.addEventListener('submit', function(event) {
     const goutoday = new Date();
     const goudobDate = new Date(goudob);
     const gouage = goutoday.getFullYear() - goudobDate.getFullYear();
-    if (gouage < 18 || gouage > 55) {
+    if (gouage <= 18 || gouage >= 55) {
         alert("Date of Birth must be between 18 and 55 years old.");
         return;
     }
