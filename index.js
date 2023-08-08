@@ -64,7 +64,7 @@ if (savedUserData) {
             <td>${userData.email}</td>
             <td>${userData.password}</td>
             <td>${userData.dob}</td>
-            <td>${userData.acceptedTerms ? 'Yes' : 'No'}</td>
+            <td>${userData.acceptedTerms ? 'true' : 'false'}</td>
         `;
         tableBody.appendChild(newRow);
     });
