@@ -1,59 +1,4 @@
-const form = document.getElementById('registrationForm');
-const tableBody = document.getElementById('userTableBody');
-
-form.addEventListener('submit', function(event) {
-    event.preventDefault();
-    
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const dob = document.getElementById('dob').value;
-    const acceptedTerms = document.getElementById('acceptedTerms').checked;
-    
-    // Validate age between 18 and 55
-    const today = new Date();
-    const dobDate = new Date(dob);
-    const age = today.getFullYear() - dobDate.getFullYear();
-    if (age < 18 || age > 55) {
-        alert("Date of Birth must be between 18 and 55 years old.");
-        return;
-    }
-    
-    // Add the data to the table
-    const newRow = document.createElement('tr');
-    newRow.innerHTML = `
-        <td>${name}</td>
-        <td>${email}</td>
-        <td>${password}</td>
-        <td>${dob}</td>
-        <td>${acceptedTerms ? 'Yes' : 'No'}</td>
-    `;
-    tableBody.appendChild(newRow);
-    
-    // Save data to localStorage
-    const userData = {
-        name: name,
-        email: email,
-        password: password,
-        dob: dob,
-        acceptedTerms: acceptedTerms
-    };
-    
-    let storedData = localStorage.getItem('userData');
-    if (!storedData) {
-        storedData = [];
-    } else {
-        storedData = JSON.parse(storedData);
-    }
-    
-    storedData.push(userData);
-    localStorage.setItem('userData', JSON.stringify(storedData));
-    
-    // Clear form fields
-    form.reset();
-});
-
-// Load saved data from localStorage
+// Move this part outside the submit event listener
 const savedUserData = localStorage.getItem('userData');
 if (savedUserData) {
     const userDataArray = JSON.parse(savedUserData);
@@ -69,3 +14,25 @@ if (savedUserData) {
         tableBody.appendChild(newRow);
     });
 }
+
+// Inside the submit event listener
+form.addEventListener('submit', function(event) {
+    event.preventDefault();
+    
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const dob = document.getElementById('dob').value;
+    const acceptedTerms = document.getElementById('acceptedTerms').checked;
+
+    // Add validation for email address (use pattern or regex)
+
+    // Validate age between 18 and 55
+
+    // Add the data to the table
+
+    // Save data to localStorage
+
+    // Clear form fields
+    form.reset();
+});
