@@ -1,66 +1,66 @@
-const form = document.getElementById('gouregistrationForm');
+const form = document.getElementById('registrationForm');
 const goutableBody = document.getElementById('userTableBody');
 
 form.addEventListener('submit', function(event) {
     event.preventDefault();
     
-    const gouname = document.getElementById('gouname').value;
-    const gouemail = document.getElementById('gouemail').value;
-    const goupassword = document.getElementById('goupassword').value;
-    const goudob = document.getElementById('goudob').value;
-    const gouacceptedTerms = document.getElementById('gouacceptedTerms').checked;
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const dob = document.getElementById('dob').value;
+    const acceptedTerms = document.getElementById('acceptedTerms').checked;
     
-    const goutoday = new Date();
-    const goudobDate = new Date(goudob);
-    const gouage = goutoday.getFullYear() - goudobDate.getFullYear();
-    if (gouage < 18 || gouage > 55) {
+    const today = new Date();
+    const dobDate = new Date(dob);
+    const age = today.getFullYear() - dobDate.getFullYear();
+    if (age < 18 || age > 55) {
         alert("Date of Birth must be between 18 and 55 years old.");
         return;
     }
     
-    const gouNewRow = document.createElement('tr');
-    gouNewRow.innerHTML = `
-        <td>${gouname}</td>
-        <td>${gouemail}</td>
-        <td>${goupassword}</td>
-        <td>${goudob}</td>
-        <td>${gouacceptedTerms ? 'Yes' : 'No'}</td>
+    const NewRow = document.createElement('tr');
+    NewRow.innerHTML = `
+        <td>${name}</td>
+        <td>${email}</td>
+        <td>${password}</td>
+        <td>${dob}</td>
+        <td>${acceptedTerms ? 'Yes' : 'No'}</td>
     `;
-    goutableBody.appendChild(gouNewRow);
+    tableBody.appendChild(NewRow);
     
-    const gouuserData = {
-        gouname: gouname,
-        gouemail: gouemail,
-        goupassword: goupassword,
-        goudob: goudob,
-        gouacceptedTerms: gouacceptedTerms
+    const userData = {
+        name: name,
+        email: email,
+        password: password,
+        dob: dob,
+        acceptedTerms: acceptedTerms
     };
     
-    let storedData = localStorage.getItem('gouuserData');
+    let storedData = localStorage.getItem('userData');
     if (!storedData) {
         storedData = [];
     } else {
         storedData = JSON.parse(storedData);
     }
     
-    storedData.push(gouuserData);
-    localStorage.setItem('gouuserData', JSON.stringify(storedData));
+    storedData.push(userData);
+    localStorage.setItem('userData', JSON.stringify(storedData));
     
     form.reset();
 });
 
-const gousavedUserData = localStorage.getItem('gouuserData');
-if (gousavedUserData) {
-    const gouuserDataArray = JSON.parse(gousavedUserData);
-    gouuserDataArray.forEach(gouuserData => {
-        const gouNewRow = document.createElement('tr');
-        gouNewRow.innerHTML = `
-            <td>${gouuserData.gouname}</td>
-            <td>${gouuserData.gouemail}</td>
-            <td>${gouuserData.goupassword}</td>
-            <td>${gouuserData.goudob}</td>
-            <td>${gouuserData.gouacceptedTerms ? 'Yes' : 'No'}</td>
+const savedUserData = localStorage.getItem('userData');
+if (savedUserData) {
+    const userDataArray = JSON.parse(savedUserData);
+    userDataArray.forEach(userData => {
+        const NewRow = document.createElement('tr');
+        NewRow.innerHTML = `
+            <td>${userData.name}</td>
+            <td>${userData.email}</td>
+            <td>${userData.password}</td>
+            <td>${userData.dob}</td>
+            <td>${userData.acceptedTerms ? 'Yes' : 'No'}</td>
         `;
-        goutableBody.appendChild(gouNewRow);
+        tableBody.appendChild(NewRow);
     });
 }
