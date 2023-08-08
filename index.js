@@ -1,21 +1,24 @@
 const form = document.getElementById('registrationForm');
 const tableBody = document.getElementById('userTableBody');
 
+// Function to display user data in the table
+function displayUserData(userData) {
+    const newRow = document.createElement('tr');
+    newRow.innerHTML = `
+        <td>${userData.name}</td>
+        <td>${userData.email}</td>
+        <td>${userData.password}</td>
+        <td>${userData.dob}</td>
+        <td>${userData.acceptedTerms ? 'Yes' : 'No'}</td>
+    `;
+    tableBody.appendChild(newRow);
+}
+
 // Load saved data from localStorage
 const savedUserData = localStorage.getItem('userData');
 if (savedUserData) {
     const userDataArray = JSON.parse(savedUserData);
-    userDataArray.forEach(userData => {
-        const newRow = document.createElement('tr');
-        newRow.innerHTML = `
-            <td>${userData.name}</td>
-            <td>${userData.email}</td>
-            <td>${userData.password}</td>
-            <td>${userData.dob}</td>
-            <td>${userData.acceptedTerms ? 'Yes' : 'No'}</td>
-        `;
-        tableBody.appendChild(newRow);
-    });
+    userDataArray.forEach(displayUserData);
 }
 
 form.addEventListener('submit', function(event) {
@@ -38,17 +41,6 @@ form.addEventListener('submit', function(event) {
     }
 
     // Add the data to the table
-    const newRow = document.createElement('tr');
-    newRow.innerHTML = `
-        <td>${name}</td>
-        <td>${email}</td>
-        <td>${password}</td>
-        <td>${dob}</td>
-        <td>${acceptedTerms ? 'true' : 'false'}</td>
-    `;
-    tableBody.appendChild(newRow);
-    
-    // Save data to localStorage
     const userData = {
         name: name,
         email: email,
@@ -57,6 +49,9 @@ form.addEventListener('submit', function(event) {
         acceptedTerms: acceptedTerms
     };
     
+    displayUserData(userData);
+
+    // Save data to localStorage
     let storedData = localStorage.getItem('userData');
     if (!storedData) {
         storedData = [];
