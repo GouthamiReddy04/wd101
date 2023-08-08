@@ -1,4 +1,7 @@
-// Move this part outside the submit event listener
+const form = document.getElementById('registrationForm');
+const tableBody = document.getElementById('userTableBody');
+
+// Load saved data from localStorage
 const savedUserData = localStorage.getItem('userData');
 if (savedUserData) {
     const userDataArray = JSON.parse(savedUserData);
@@ -9,13 +12,12 @@ if (savedUserData) {
             <td>${userData.email}</td>
             <td>${userData.password}</td>
             <td>${userData.dob}</td>
-            <td>${userData.acceptedTerms ? 'true' : 'false'}</td>
+            <td>${userData.acceptedTerms ? 'Yes' : 'No'}</td>
         `;
         tableBody.appendChild(newRow);
     });
 }
 
-// Inside the submit event listener
 form.addEventListener('submit', function(event) {
     event.preventDefault();
     
@@ -25,14 +27,46 @@ form.addEventListener('submit', function(event) {
     const dob = document.getElementById('dob').value;
     const acceptedTerms = document.getElementById('acceptedTerms').checked;
 
-    // Add validation for email address (use pattern or regex)
-
+    const today = new Date();
+    const dobDate = new Date(dob);
+    const age = today.getFullYear() - dobDate.getFullYear();
+    
     // Validate age between 18 and 55
+    if (age < 18 || age > 55) {
+        alert("Date of Birth must be between 18 and 55 years old.");
+        return;
+    }
 
     // Add the data to the table
-
+    const newRow = document.createElement('tr');
+    newRow.innerHTML = `
+        <td>${name}</td>
+        <td>${email}</td>
+        <td>${password}</td>
+        <td>${dob}</td>
+        <td>${acceptedTerms ? 'true' : 'false'}</td>
+    `;
+    tableBody.appendChild(newRow);
+    
     // Save data to localStorage
-
+    const userData = {
+        name: name,
+        email: email,
+        password: password,
+        dob: dob,
+        acceptedTerms: acceptedTerms
+    };
+    
+    let storedData = localStorage.getItem('userData');
+    if (!storedData) {
+        storedData = [];
+    } else {
+        storedData = JSON.parse(storedData);
+    }
+    
+    storedData.push(userData);
+    localStorage.setItem('userData', JSON.stringify(storedData));
+    
     // Clear form fields
     form.reset();
 });
