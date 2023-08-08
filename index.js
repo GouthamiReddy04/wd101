@@ -1,5 +1,5 @@
 const form = document.getElementById('registrationForm');
-const goutableBody = document.getElementById('userTableBody');
+const tableBody = document.getElementById('userTableBody');
 
 form.addEventListener('submit', function(event) {
     event.preventDefault();
